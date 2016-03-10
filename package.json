@@ -1,0 +1,30 @@
+{
+  "name": "bundlefairy-example",
+  "version": "0.0.0",
+  "description": "Bundle Fairy example",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test"
+  },
+  "bin": {
+    "bundle-fairy": "bin/bundle-fairy.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gretacb/bundlefairy-example"
+  },
+  "author": "Nina",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gretacb/bundlefairy-example/issues"
+  },
+  "homepage": "https://github.com/gretacb/bundlefairy-example",
+  "dependencies": {
+    "minimist": "^1.1.0",
+    "mkdirp": "^0.5.0",
+    "zipfile": "^0.5.5"
+  },
+  "devDependencies": {
+    "tape": "^3.0.1"
+  }
+}
