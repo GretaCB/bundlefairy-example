@@ -7,12 +7,12 @@ var fs = require('fs');
 var path = require('path');
 var exec = require('child_process').exec;
 
-test('valid zipfiles', function(t) {
+test('valid bundle', function(t) {
   // Setup your valid fixture
   var fixture = path.resolve(fixtures, 'valid.zip');
   
   // Pass the valid fixture as an argument into bundleFairy
-  bundleFairy(fixture, function(err, output) {
+  bundleFairy.isbundle(fixture, function(err, output) {
     // Let's check to see what bundleFairy returned
     
     // We are not expecting an error. 
@@ -32,12 +32,12 @@ test('valid zipfiles', function(t) {
   });
 });
 
-test('invalid zipfiles', function(t) {
+test('invalid bundle', function(t) {
   // Setup an invalid fixture
   var fixture = path.resolve(fixtures, 'invalid.txt');
   
   // Pass the invalid fixture as an argument into bundleFairy
-  bundleFairy(fixture, function(err, output) {
+  bundleFairy.isbundle(fixture, function(err, output) {
     
     // In this case, we are expecting an error
     t.ok(err, 'expected error');
@@ -57,9 +57,15 @@ test('executable script: valid case', function(t) {
   // Setup your valid fixture
   var valid_fixture = path.resolve(fixtures, 'valid.zip');
 
+  // Setup command, as if it were being called from the console
+  var valid = [
+    path.resolve(__dirname, '..', 'bin', 'bundleFairy.js'),
+    valid_fixture
+  ].join(' ');
+
   // Here, we are using node's child_process tool to trigger
   // bundleFairy as if we were executing it from the command line
-  exec(valid_fixture, function(err, stdout, stderr) {
+  exec(valid, function(err, stdout, stderr) {
     // Hopefully bundleFairy doesnt return an error, 
     // since we are testing a valid fixture
     if (err) throw err;

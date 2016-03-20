@@ -3,7 +3,7 @@ var path = require('path');
 var fs = require('fs');
 var mkdirp = require('mkdirp');
 
-module.exports = function(filepath, extract, callback) {
+module.exports.isBundle = function(filepath, callback) {
   filepath = path.resolve(filepath);
 
   fs.exists(filepath, function(exists) {
@@ -11,41 +11,45 @@ module.exports = function(filepath, extract, callback) {
 
     var zf = new zipfile.ZipFile(filepath);
     var files = getBundleFiles(zf);
-    
-    // Return false if all the required bundle files are not there
-    if (!files) return callback(null, false);
 
-    // If second argument exists, extractFiles
-    // extractFiles(zf, files, callback);
+    // A bundle is a zip that can only contain the following file types:
+    // .geojson
+    // .csv
+    // .index (optional since each layer may not need an index (empty features or layer is not larger than 10MB))
+    // .json (metadata file, only needed if there are multiple layers)
+    // anything other file types means it is not a bundle
+
+    // not a bundle if:
+    // - contains both geojson and csv files
+    // - contains multiple csv files
+    // - contains multiple layers but no metadata.json file 
+    // (multiple layers means it was converted from a kml/gpx file, and metadata of the original kml/gpx must exist)
+  
+
+    // default to false, unless proven a bundle (in which case, return true)
+    return callback(null, false);
   });
 };
 
-function invalid(msg) {
-  var err = new Error(msg);
-  err.code = 'EINVALID';
-  return err;
-}
+module.exports.extract = function(filepath, outdir, callback) {
+  filepath = path.resolve(filepath);
 
+  fs.exists(filepath, function(exists) {
+    if (!exists) return callback(new Error('No such file: ' + filepath));
+
+    // extract files to out directory
+
+    return callback(null, final_uri);
+  });
+};
+
+// Listing the files/file extensions within a zipfile can be handled a few different ways.
+// Feel free to use this function if you would like. Or if you have another strategy,
+// definitely feel free to not use this function
 function getBundleFiles(zf) {
-  // Required file exts to look for
-  var exts = [
-    '.json',
-    '.geojson',
-    '.index'
-  ];
-
   // Must contain at least some files
   if (zf.names.length === 0) return false;
-  var filenames = zf.names;
+  var bundleFiles = zf.names;
 
-  // Find required files
-  // Must contain at least:
-  // 1 metadata.json file
-  // 1 geojson file/layer
-  // 1 index file for each layer
-  // if not, return false
-
-
-  // Passed!
   return bundleFiles;
 }
