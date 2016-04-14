@@ -32,8 +32,20 @@ var args = require('minimist')(process.argv.slice(2));
 
 if (args.h || args.help) usage();
 
-// Assign the first argument (the zip filepath) to a variable
-var filepath = args._[0];
+// How bundle fairy will be called from the command line: 
+
+// bundle-fairy isbundle <zipfile> 
+// Therefore, first arg = "isbundle"
+// And second arg = zipfile filepath
+
+// bundle-fairy extract <zipfile>
+// Therefore, first arg = "extract"
+// And second arg = zipfile filepath
+
+// Depending on which command (isbundle or extract), you will need to direct to the correlating function in index.js
+
+// Assign the second argument (the zip filepath) to a variable
+var filepath = args._[1];
 
 // if user calls bundle-fairy isbundle
 bundleFairy.isbundle(filepath, function(err, result) {
