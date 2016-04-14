@@ -11,7 +11,9 @@ module.exports.isBundle = function(filepath, callback) {
 
     var zf = new zipfile.ZipFile(filepath);
     var files = getBundleFiles(zf);
-
+    
+    // Official bundle "spec" documented here https://github.com/mapbox/bundle-fairy/tree/isbundle#bundle-fairy
+    
     // A bundle is a zip that can only contain the following file types:
     // .geojson
     // .csv
@@ -20,7 +22,7 @@ module.exports.isBundle = function(filepath, callback) {
     // anything other file types means it is not a bundle
 
     // not a bundle if:
-    // - contains both geojson and csv files
+    // - contains both geojson AND csv files
     // - contains multiple csv files
     // - contains multiple layers but no metadata.json file 
     // (multiple layers means it was converted from a kml/gpx file, and metadata of the original kml/gpx must exist)
