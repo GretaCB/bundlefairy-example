@@ -4,7 +4,7 @@
   "description": "Bundle Fairy example",
   "main": "index.js",
   "scripts": {
-    "test": "node test"
+    "test": "tape test/*.test.js"
   },
   "bin": {
     "bundle-fairy": "bin/bundle-fairy.js"

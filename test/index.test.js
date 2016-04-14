@@ -1,6 +1,6 @@
 // These are setting up all of the dependencies this file will need to use
 var test = require('tape').test;
-var fixtures = require('./fixtures');
+var fixtures = require('../test/fixtures');
 var path = require('path');
 var bundleFairy = require('..');
 var fs = require('fs');
